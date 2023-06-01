@@ -3,7 +3,7 @@
 <template>
   <main>
     <div>
-      <b-button variant="danger">Success</b-button>
+      <b-button variant="primary">Success</b-button>
     </div>
   </main>
 </template>
