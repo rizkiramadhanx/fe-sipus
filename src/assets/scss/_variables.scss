@@ -36,7 +36,7 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$blue: pink !default;
+$blue: blue !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #d63384 !default;
@@ -1125,24 +1125,25 @@ $form-invalid-border-color: $form-feedback-invalid-color !default;
 
 // scss-docs-start form-validation-states
 $form-validation-states: (
-  "valid": (
-    "color": var(--#{$prefix}form-valid-color),
-    "icon": $form-feedback-icon-valid,
-    "tooltip-color": #fff,
-    "tooltip-bg-color": var(--#{$prefix}success),
-    "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width
-      rgba(var(--#{$prefix}success-rgb), $input-btn-focus-color-opacity),
-    "border-color": var(--#{$prefix}form-valid-border-color),
-  ),
-  "invalid": (
-    "color": var(--#{$prefix}form-invalid-color),
-    "icon": $form-feedback-icon-invalid,
-    "tooltip-color": #fff,
-    "tooltip-bg-color": var(--#{$prefix}danger),
-    "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width
-      rgba(var(--#{$prefix}danger-rgb), $input-btn-focus-color-opacity),
-    "border-color": var(--#{$prefix}form-invalid-border-color),
-  ),
+  // "valid": (
+  //   "color": var(--#{$prefix}form-valid-color),
+  //   "icon": $form-feedback-icon-valid,
+  //   "tooltip-color": #fff,
+  //   "tooltip-bg-color": var(--#{$prefix}success),
+  //   "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width
+  //     rgba(var(--#{$prefix}success-rgb), $input-btn-focus-color-opacity),
+  //   "border-color": var(--#{$prefix}form-valid-border-color),
+  // ),
+  "invalid":
+    (
+      "color": var(--#{$prefix}form-invalid-color),
+      "icon": $form-feedback-icon-invalid,
+      "tooltip-color": #fff,
+      "tooltip-bg-color": var(--#{$prefix}danger),
+      "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width
+        rgba(var(--#{$prefix}danger-rgb), $input-btn-focus-color-opacity),
+      "border-color": var(--#{$prefix}form-invalid-border-color),
+    )
 ) !default;
 // scss-docs-end form-validation-states
 
