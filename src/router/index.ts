@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import { useAuthStore } from "@/stores/auth";
+import AuthorDashboard from "@/views/Author/Index.vue";
+import AddAuthor from "@/views/Author/AddAuthor.vue";
+import EditAuthor from "@/views/Author/EditAuthor.vue";
 import axios from "axios";
 
 const authGuardRole = async (next: any, role: string[]) => {
@@ -62,6 +65,21 @@ const router = new VueRouter({
       path: "/login",
       name: "login",
       component: Login,
+    },
+    {
+      path: "/dashboard/author",
+      name: "dashboard-author",
+      component: AuthorDashboard,
+    },
+    {
+      path: "/dashboard/author/add",
+      name: "add-author",
+      component: AddAuthor,
+    },
+    {
+      path: "/dashboard/author/:id",
+      name: "edit-author",
+      component: EditAuthor,
     },
   ],
 });

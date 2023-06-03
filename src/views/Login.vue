@@ -97,15 +97,16 @@ export default {
   },
   methods: {
     onSubmit() {
+      const { email, password } = this.state;
       const storeAuth = useAuthStore();
       const { setLogin } = storeAuth;
 
-      const register = async () => {
+      const login = async () => {
         const response = await axios("http://localhost:3000/api/v1/login", {
           method: "post",
           data: {
-            email: "admin@gmail.com",
-            password: "admin123",
+            email: email,
+            password: password,
           },
           headers: {
             "Content-Type": "application/json",
@@ -115,11 +116,14 @@ export default {
         if (response.status === 200) {
           localStorage.setItem("token", response.data.data.token);
           localStorage.setItem("isLogin", "true");
-          // setLogin();
+          setLogin();
           window.location.reload();
         }
       };
-      register();
+
+      login().catch((err) => {
+        this.$toast.error("Email dan password salah");
+      });
     },
   },
   computed: {

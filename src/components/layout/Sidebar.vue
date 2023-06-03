@@ -19,7 +19,7 @@
       <div class="navbar shadow-md d-flex px-3 justify-content-end">
         <div class="d-flex align-items-center avatar_navbar px-2">
           <b-avatar class="mr-3"></b-avatar>
-          <span class="mr-auto">J. Circlehead</span>
+          <span class="mr-auto">Admin</span>
         </div>
       </div>
       <main class="p-3">
@@ -68,26 +68,26 @@ export default {
       items_nav: [
         {
           label: "Buku",
-          href: "dashboard/buku",
+          href: "/dashboard/book",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconBook",
         },
 
         {
           label: "Penulis",
-          href: "dashboard/penulis",
+          href: "/dashboard/author",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconPen",
         },
         {
           label: "Kategori",
-          href: "dashboard/kategori",
+          href: "/dashboard/category",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconTag",
         },
         {
           label: "Rak",
-          href: "dashboard/rak",
+          href: "/dashboard/self",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconFolder",
         },
@@ -152,7 +152,6 @@ a {
 }
 
 .avatar_navbar {
-  background-color: blue;
   padding: 0;
 }
 
