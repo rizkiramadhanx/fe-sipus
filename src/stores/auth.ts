@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { defineStore } from "pinia";
 
 type role = "ADMIN" | "CASHIER" | "USER";
@@ -23,12 +23,15 @@ export const useAuthStore = defineStore("auth", {
         headers: {
           Authorization: this.token,
         },
-      });
-
-      this.username = response.data.data.name;
-      if (response.status === 401) {
-        this.isLogin = false;
-      }
+      })
+        .then((response: AxiosResponse) => {
+          this.username = response.data.data.name;
+        })
+        .catch((err) => {
+          this.isLogin = false;
+          localStorage.setItem("isLogin", "false");
+          window.location.reload();
+        });
     },
     setLogin() {
       this.isLogin = true;

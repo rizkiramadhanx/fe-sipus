@@ -17,9 +17,17 @@
     </div>
     <div class="right_sidebar w-100 d-flex flex-column">
       <div class="navbar shadow-md d-flex px-3 justify-content-end">
-        <div class="d-flex align-items-center avatar_navbar px-2">
+        <div
+          class="d-flex align-items-center avatar_navbar px-2"
+          @click="toogleLogout"
+        >
           <b-avatar class="mr-3"></b-avatar>
-          <span class="mr-auto">Admin</span>
+          <span class="mr-auto">{{ username }}</span>
+        </div>
+        <div class="hover_navigation" :class="isActiveToggle ? '' : 'd-none'">
+          <b-button variant="danger" class="py-2 w-100" @click="logOut"
+            >Logout</b-button
+          >
         </div>
       </div>
       <main class="p-3">
@@ -32,6 +40,7 @@
 
 <script lang="ts">
 import { useAuthStore } from "@/stores/auth";
+import { ref } from "vue";
 import {
   BIconBook,
   BIconPen,
@@ -42,6 +51,13 @@ import {
 
 export default {
   name: "Sidebar",
+  setup() {
+    const authStore = useAuthStore();
+
+    const { username } = authStore;
+
+    return { username };
+  },
   props: {
     breadCrumbs: {
       type: Array,
@@ -64,6 +80,7 @@ export default {
           active: true,
         },
       ],
+      isActiveToggle: false,
       isActiveNav: true,
       items_nav: [
         {
@@ -107,6 +124,14 @@ export default {
     };
   },
   methods: {
+    toogleLogout() {
+      this.isActiveToggle = !this.isActiveToggle;
+    },
+    logOut() {
+      const authStore = useAuthStore();
+      authStore.setLogout();
+      window.location.reload();
+    },
     toggleNav() {
       this.isActiveNav = !this.isActiveNav;
     },
@@ -140,6 +165,17 @@ export default {
 }
 .navbar {
   background-color: beige;
+  position: relative;
+}
+
+.hover_navigation {
+  position: absolute;
+  right: 2;
+  top: 60px;
+  padding: 10px;
+  width: 210px;
+  background-color: black;
+  border-radius: 10px;
 }
 .left_sidebar {
   background-color: white;
@@ -153,6 +189,8 @@ a {
 
 .avatar_navbar {
   padding: 0;
+  background-color: white;
+  border-radius: 10px;
 }
 
 @media (min-width: 0) and (max-width: 768px) {

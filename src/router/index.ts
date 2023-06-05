@@ -1,16 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import { useAuthStore } from "@/stores/auth";
+import axios from "axios";
+
+import Dashboard from "@/views/Dashboard.vue";
 import AuthorDashboard from "@/views/Author/Index.vue";
 import AddAuthor from "@/views/Author/AddAuthor.vue";
 import EditAuthor from "@/views/Author/EditAuthor.vue";
 import LanguageDashboard from "@/views/Language/Index.vue";
 import AddLanguage from "@/views/Language/AddLanguage.vue";
 import EditLanguage from "@/views/Language/EditLanguage.vue";
-
-import axios from "axios";
+import BookDashboard from "@/views/Book/Index.vue";
 
 const authGuardRole = async (next: any, role: string[]) => {
   const store = useAuthStore();
@@ -70,12 +71,12 @@ const router = new VueRouter({
       name: "login",
       component: Login,
     },
+    // Route Author
     {
       path: "/dashboard/author",
       name: "dashboard-author",
       component: AuthorDashboard,
     },
-    // Route Author
     {
       path: "/dashboard/author/add",
       name: "add-author",
@@ -101,10 +102,29 @@ const router = new VueRouter({
     },
     {
       path: "/dashboard/language/:id",
-      name: "edit-author",
+      name: "edit-language",
       component: EditLanguage,
       meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
+    // Route Book
+    {
+      path: "/dashboard/book",
+      name: "dashboard-book",
+      component: BookDashboard,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    // {
+    //   path: "/dashboard/book/add",
+    //   name: "add-book",
+    //   component: AddBook,
+    //   meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    // },
+    // {
+    //   path: "/dashboard/book/:id",
+    //   name: "edit-book",
+    //   component: EditBook,
+    //   meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    // },
   ],
 });
 

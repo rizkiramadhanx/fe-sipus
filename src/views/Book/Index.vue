@@ -12,6 +12,29 @@
         class="mt-2"
         v-if="state.allLanguage"
       >
+        <template #cell(Category)="row">
+          <div class="d-flex gap-2">
+            <template v-for="category in row.item.Category.slice(0, 2)">
+              <b-button size="sm">{{ category.name }}</b-button>
+            </template>
+            <b-button
+              v-b-tooltip.hover
+              :title="
+                // @ts-ignore
+                row.item.Category.map((e, i, row) => {
+                  if (row.length === i + 1) {
+                    return `${e.name}`;
+                  } else {
+                    return `${e.name}, `;
+                  }
+                })
+              "
+              size="sm"
+            >
+              <b-icon icon="question-circle-fill" aria-label="Help"></b-icon>
+            </b-button>
+          </div>
+        </template>
         <template #cell(action)="row">
           <div class="d-flex gap-2">
             <b-link :href="'/dashboard/book/' + row.item.id_book">
@@ -81,14 +104,19 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Nama Buku" },
+        { key: "code", label: "Kode Buku" },
+        { key: "title", label: "Nama Buku" },
         {
-          key: "author",
+          key: "Author.fullName",
           label: "Penulis",
         },
         {
-          key: "language",
+          key: "Language.name",
           label: "Bahasa",
+        },
+        {
+          key: "Category",
+          label: "Kategori",
         },
         {
           key: "action",
