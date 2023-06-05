@@ -6,6 +6,10 @@ import { useAuthStore } from "@/stores/auth";
 import AuthorDashboard from "@/views/Author/Index.vue";
 import AddAuthor from "@/views/Author/AddAuthor.vue";
 import EditAuthor from "@/views/Author/EditAuthor.vue";
+import LanguageDashboard from "@/views/Language/Index.vue";
+import AddLanguage from "@/views/Language/AddLanguage.vue";
+import EditLanguage from "@/views/Language/EditLanguage.vue";
+
 import axios from "axios";
 
 const authGuardRole = async (next: any, role: string[]) => {
@@ -59,7 +63,7 @@ const router = new VueRouter({
       path: "/dashboard",
       name: "dashboard",
       component: Dashboard,
-      meta: { requiresAuth: true, role: ["ADMIN", "USER"] },
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
     {
       path: "/login",
@@ -71,6 +75,7 @@ const router = new VueRouter({
       name: "dashboard-author",
       component: AuthorDashboard,
     },
+    // Route Author
     {
       path: "/dashboard/author/add",
       name: "add-author",
@@ -80,6 +85,25 @@ const router = new VueRouter({
       path: "/dashboard/author/:id",
       name: "edit-author",
       component: EditAuthor,
+    },
+    // Route Language
+    {
+      path: "/dashboard/language",
+      name: "dashboard-language",
+      component: LanguageDashboard,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/language/add",
+      name: "add-language",
+      component: AddLanguage,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/language/:id",
+      name: "edit-author",
+      component: EditLanguage,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
   ],
 });

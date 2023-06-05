@@ -86,8 +86,8 @@ export default {
           icon: "BIconTag",
         },
         {
-          label: "Rak",
-          href: "/dashboard/self",
+          label: "Bahasa",
+          href: "/dashboard/language",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconFolder",
         },
@@ -148,7 +148,7 @@ export default {
 
 a {
   text-decoration: none !important;
-  color: cadetblue;
+  color: black;
 }
 
 .avatar_navbar {

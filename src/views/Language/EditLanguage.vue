@@ -1,23 +1,23 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Tambah Penulis</h2>
+    <h2 class="mt-2">Edit Bahasa</h2>
     <div
       class="border p-4 rounded h-100 d-flex flex-column justify-content-between"
     >
-      <b-form @submit.prevent="onSubmit" id="form_author">
-        <b-form-group id="fullName" label="Nama Lengkap" label-for="fullName">
+      <b-form @submit.prevent="onSubmit" id="form_language">
+        <b-form-group id="name" label="Nama Bahasa" label-for="name">
           <b-form-input
-            id="fullName"
+            id="name"
             type="text"
             class="mt-1"
-            placeholder="Masukan nama lengkap"
+            placeholder="Masukan nama bahasa"
             required
-            v-model="v$.fullName.$model"
-            :state="!v$.fullName.$errors.length"
+            v-model="v$.name.$model"
+            :state="!v$.name.$errors.length"
           ></b-form-input>
-          <b-form-invalid-feedback :state="!v$.fullName.$errors">
-            {{ v$.fullName.$errors[0]?.$message }}
+          <b-form-invalid-feedback :state="!v$.name.$errors">
+            {{ v$.name.$errors[0]?.$message }}
           </b-form-invalid-feedback>
         </b-form-group>
       </b-form>
@@ -27,8 +27,8 @@
           :variant="!isValidForm ? 'success' : null"
           :disabled="isValidForm"
           type="submit"
-          form="form_author"
-          >Tambah</b-button
+          form="form_language"
+          >Simpan</b-button
         >
       </div>
     </div>
@@ -37,26 +37,43 @@
 
 <script lang="ts">
 import Sidebar from "@/components/layout/Sidebar.vue";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import axios from "axios";
 
 export default {
-  name: "Dashboard",
+  name: "EditLanguage",
   components: { Sidebar },
   setup() {
     const state = reactive({
-      fullName: "",
+      name: "",
     });
 
     const rules = {
-      fullName: { required, minLength: minLength(5) },
+      name: { required, minLength: minLength(5) },
     };
 
     const v$ = useVuelidate(rules, state);
 
     return { state, v$ };
+  },
+  mounted() {
+    const { id } = this.$route.params;
+
+    const getDefault = async () => {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/language/${id}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      this.state.name = response.data.data.name;
+    };
+
+    getDefault();
   },
   computed: {
     isValidForm(): any {
@@ -65,28 +82,37 @@ export default {
        */
       return this.v$.$invalid;
     },
+
+    getUrl(): object {
+      return this.$route;
+    },
   },
   methods: {
     handleReset() {
       this.v$.$reset();
     },
     onSubmit() {
-      const { fullName } = this.state;
+      const { name } = this.state;
+
+      const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/author", {
-          method: "post",
-          data: {
-            fullName: fullName,
-          },
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        const response = await axios(
+          `http://localhost:3000/api/v1/language/${id}`,
+          {
+            method: "put",
+            data: {
+              name: name,
+            },
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");
-          this.$router.replace("/dashboard/author");
+          this.$router.push("/dashboard/language");
         }
       };
 
@@ -100,10 +126,14 @@ export default {
       breadCrumbs: [
         {
           text: "Dashboard",
-          href: "dashboard",
+          href: "/dashboard",
         },
         {
-          text: "Tambah",
+          text: "Bahasa",
+          href: "/dashboard/language",
+        },
+        {
+          text: "Edit",
           href: "tambah",
         },
       ],

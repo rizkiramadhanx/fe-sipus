@@ -80,7 +80,7 @@ export default {
       /**
        * TODO : reset form
        */
-      return this.v$.$reset();
+      return this.v$.$invalid;
     },
 
     getUrl(): object {
@@ -94,16 +94,21 @@ export default {
     onSubmit() {
       const { fullName } = this.state;
 
+      const { id } = this.$route.params;
+
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/author", {
-          method: "post",
-          data: {
-            fullName: fullName,
-          },
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        const response = await axios(
+          `http://localhost:3000/api/v1/author/${id}`,
+          {
+            method: "put",
+            data: {
+              fullName: fullName,
+            },
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");

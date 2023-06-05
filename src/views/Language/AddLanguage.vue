@@ -1,23 +1,23 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Tambah Penulis</h2>
+    <h2 class="mt-2">Tambah Bahasa</h2>
     <div
       class="border p-4 rounded h-100 d-flex flex-column justify-content-between"
     >
-      <b-form @submit.prevent="onSubmit" id="form_author">
-        <b-form-group id="fullName" label="Nama Lengkap" label-for="fullName">
+      <b-form @submit.prevent="onSubmit" id="form_language">
+        <b-form-group id="bahasa" label="Nama Bahasa" label-for="bahasa">
           <b-form-input
-            id="fullName"
+            id="name"
             type="text"
             class="mt-1"
-            placeholder="Masukan nama lengkap"
+            placeholder="Masukan nama bahasa"
             required
-            v-model="v$.fullName.$model"
-            :state="!v$.fullName.$errors.length"
+            v-model="v$.name.$model"
+            :state="!v$.name.$errors.length"
           ></b-form-input>
-          <b-form-invalid-feedback :state="!v$.fullName.$errors">
-            {{ v$.fullName.$errors[0]?.$message }}
+          <b-form-invalid-feedback :state="!v$.name.$errors">
+            {{ v$.name.$errors[0]?.$message }}
           </b-form-invalid-feedback>
         </b-form-group>
       </b-form>
@@ -27,7 +27,7 @@
           :variant="!isValidForm ? 'success' : null"
           :disabled="isValidForm"
           type="submit"
-          form="form_author"
+          form="form_language"
           >Tambah</b-button
         >
       </div>
@@ -39,19 +39,19 @@
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, minLength } from "@vuelidate/validators";
+import { required, minLength } from "@vuelidate/validators";
 import axios from "axios";
 
 export default {
-  name: "Dashboard",
+  name: "AddLanguage",
   components: { Sidebar },
   setup() {
     const state = reactive({
-      fullName: "",
+      name: "",
     });
 
     const rules = {
-      fullName: { required, minLength: minLength(5) },
+      name: { required, minLength: minLength(5) },
     };
 
     const v$ = useVuelidate(rules, state);
@@ -71,13 +71,13 @@ export default {
       this.v$.$reset();
     },
     onSubmit() {
-      const { fullName } = this.state;
+      const { name } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/author", {
+        const response = await axios("http://localhost:3000/api/v1/language", {
           method: "post",
           data: {
-            fullName: fullName,
+            name: name,
           },
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -86,7 +86,7 @@ export default {
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");
-          this.$router.replace("/dashboard/author");
+          this.$router.replace("/dashboard/language");
         }
       };
 
@@ -100,11 +100,15 @@ export default {
       breadCrumbs: [
         {
           text: "Dashboard",
-          href: "dashboard",
+          href: "/dashboard",
+        },
+        {
+          text: "Bahasa",
+          href: "/dashboard/bahasa",
         },
         {
           text: "Tambah",
-          href: "tambah",
+          href: "#",
         },
       ],
     };
