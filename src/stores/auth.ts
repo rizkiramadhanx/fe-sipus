@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("auth", {
       })
         .then((response: AxiosResponse) => {
           this.username = response.data.data.name;
+          this.role = response.data.data.role;
         })
         .catch((err) => {
           this.isLogin = false;

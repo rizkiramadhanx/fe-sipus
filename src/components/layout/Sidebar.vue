@@ -109,14 +109,14 @@ export default {
           icon: "BIconFolder",
         },
         {
-          label: "Anggota",
-          href: "dashboard/anggota",
-          role: ["ADMIN", "EMPLOYEE"],
+          label: "Karyawan",
+          href: "/dashboard/karyawan",
+          role: ["ADMIN"],
           icon: "BIconPeople",
         },
         {
-          label: "Karyawan",
-          href: "dashboard/karyawan",
+          label: "Mahasiswa",
+          href: "/dashboard/student",
           role: ["ADMIN"],
           icon: "BIconPeople",
         },
@@ -138,7 +138,7 @@ export default {
     renderListNav(roleFromNav: string[]) {
       const authStore = useAuthStore();
       const { role } = authStore;
-      return roleFromNav.some((record) => record === "EMPLOYEE");
+      return roleFromNav.some((record) => record === role);
     },
   },
   components: {

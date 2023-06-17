@@ -17,6 +17,9 @@ import EditBook from "@/views/Book/EditBook.vue";
 import CategoryDashboard from "@/views/Category/Index.vue";
 import AddCategory from "@/views/Category/AddCategory.vue";
 import EditCategory from "@/views/Category/EditCategory.vue";
+import StudentDashboard from "@/views/Student/Index.vue";
+import AddStudent from "@/views/Student/AddStudent.vue";
+import EditStudent from "@/views/Student/EditStudent.vue";
 
 const authGuardRole = async (next: any, role: string[]) => {
   const store = useAuthStore();
@@ -147,6 +150,25 @@ const router = new VueRouter({
       path: "/dashboard/category/:id",
       name: "edit-category",
       component: EditCategory,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    // Student
+    {
+      path: "/dashboard/student",
+      name: "dashboard-student",
+      component: StudentDashboard,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/student/add",
+      name: "add-student",
+      component: AddStudent,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/student/:id",
+      name: "edit-student",
+      component: EditStudent,
       meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
   ],
