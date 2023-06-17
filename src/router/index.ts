@@ -12,6 +12,11 @@ import LanguageDashboard from "@/views/Language/Index.vue";
 import AddLanguage from "@/views/Language/AddLanguage.vue";
 import EditLanguage from "@/views/Language/EditLanguage.vue";
 import BookDashboard from "@/views/Book/Index.vue";
+import AddBook from "@/views/Book/AddBook.vue";
+import EditBook from "@/views/Book/EditBook.vue";
+import CategoryDashboard from "@/views/Category/Index.vue";
+import AddCategory from "@/views/Category/AddCategory.vue";
+import EditCategory from "@/views/Category/EditCategory.vue";
 
 const authGuardRole = async (next: any, role: string[]) => {
   const store = useAuthStore();
@@ -113,18 +118,37 @@ const router = new VueRouter({
       component: BookDashboard,
       meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
-    // {
-    //   path: "/dashboard/book/add",
-    //   name: "add-book",
-    //   component: AddBook,
-    //   meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
-    // },
-    // {
-    //   path: "/dashboard/book/:id",
-    //   name: "edit-book",
-    //   component: EditBook,
-    //   meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
-    // },
+    {
+      path: "/dashboard/book/add",
+      name: "add-book",
+      component: AddBook,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/book/:id",
+      name: "edit-book",
+      component: EditBook,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    // Category
+    {
+      path: "/dashboard/category",
+      name: "dashboard-category",
+      component: CategoryDashboard,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/category/add",
+      name: "add-category",
+      component: AddCategory,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/category/:id",
+      name: "edit-category",
+      component: EditCategory,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
   ],
 });
 
