@@ -23,6 +23,8 @@ import EditStudent from "@/views/Student/EditStudent.vue";
 import BookingDashboard from "@/views/Booking/Index.vue";
 import AddBooking from "@/views/Booking/AddBooking.vue";
 import EditBooking from "@/views/Booking/EditBooking.vue";
+import BorrowDashboard from "@/views/Borrow/Index.vue";
+import AddBorrow from "@/views/Borrow/AddBorrow.vue";
 
 const authGuardRole = async (next: any, role: string[]) => {
   const store = useAuthStore();
@@ -174,7 +176,7 @@ const router = new VueRouter({
       component: EditStudent,
       meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
-    // Student
+    // Booking
     {
       path: "/dashboard/booking",
       name: "dashboard-booking",
@@ -193,6 +195,25 @@ const router = new VueRouter({
       component: EditBooking,
       meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
     },
+    // Borrow
+    {
+      path: "/dashboard/borrow",
+      name: "dashboard-borrow",
+      component: BorrowDashboard,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    {
+      path: "/dashboard/borrow/add",
+      name: "add-borrow",
+      component: AddBorrow,
+      meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    },
+    // {
+    //   path: "/dashboard/borrow/:id",
+    //   name: "edit-borrow",
+    //   component: EditBooking,
+    //   meta: { requiresAuth: true, role: ["ADMIN", "EMPLOYEE"] },
+    // },
   ],
 });
 

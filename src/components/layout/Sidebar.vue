@@ -125,6 +125,12 @@ export default {
           role: ["ADMIN"],
           icon: "BIconPeople",
         },
+        {
+          label: "Peminjaman",
+          href: "/dashboard/borrow",
+          role: ["ADMIN"],
+          icon: "BIconPeople",
+        },
       ],
     };
   },

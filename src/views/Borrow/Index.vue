@@ -15,16 +15,33 @@
         v-if="state.borrow"
       >
         <template><slot name="empty-text">Data Kosong</slot></template>
+        <template #cell(borrow_date)="row">
+          {{ formatDate(row.item.borrow_date) }}</template
+        >
+        <template #cell(return_date)="row">
+          {{ formatDate(row.item.return_date) }}</template
+        >
+        <template #cell(status)="row">
+          <b-button
+            disabled
+            class="bg-primary text-center w-auto text-white rounded"
+            v-if="row.item.status === 'DIPINJAM'"
+          >
+            {{ row.item.status }}
+          </b-button>
+          <b-button
+            disabled
+            class="bg-success text-center w-auto text-white rounded"
+            v-if="row.item.status === 'DIKEMBALIKAN'"
+          >
+            Dikembalikan
+          </b-button>
+        </template>
         <template #cell(action)="row">
           <div class="d-flex gap-2">
             <b-link :href="'/dashboard/borrow/' + row.item.id_borrow">
               <b-button variant="primary"> Edit </b-button>
             </b-link>
-            <b-button
-              variant="danger"
-              @click="handleDeleteLanguage(row.item.id_borrow)"
-              >Hapus</b-button
-            >
           </div>
         </template>
       </b-table>
@@ -36,6 +53,7 @@
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
+import dayjs from "dayjs";
 
 export default {
   name: "borrowDashboard",
@@ -51,6 +69,7 @@ export default {
           Authorization: localStorage.getItem("token"),
         },
       });
+
       state.borrow = response.data.data;
     });
 
@@ -59,6 +78,12 @@ export default {
     };
   },
   methods: {
+    formatDate(date: string) {
+      if (!date) {
+        return "Belum Dikembalikan";
+      }
+      return dayjs(date).format("D MMMM YYYY, pukul h:mm");
+    },
     handleDeleteLanguage(id: number) {
       const fetchDelete = async () => {
         const response = await axios.delete(
@@ -81,10 +106,16 @@ export default {
       });
     },
   },
+
   data() {
     return {
       fields: [
-        { key: "name", label: "Peminjaman" },
+        { key: "Booking.Book.title", label: "Judul Buku" },
+        { key: "Booking.code", label: "Kode Buku" },
+        { key: "borrow_date", label: "Waktu Pinjam" },
+        { key: "return_date", label: "Waktu Kembali" },
+        { key: "Student.fullName", label: "Nama Mahasiswa" },
+        { key: "status", label: "Status Peminjaman" },
         {
           key: "action",
           label: "Aksi",

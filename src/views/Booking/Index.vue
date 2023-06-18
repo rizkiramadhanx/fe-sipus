@@ -16,14 +16,14 @@
           <b-button
             disabled
             class="bg-primary text-center w-auto text-white rounded"
-            v-if="row.status"
+            v-show="row.item.status === true"
           >
             Terpinjam
           </b-button>
           <b-button
             disabled
             class="bg-success text-center w-auto text-white rounded"
-            v-if="!row.status"
+            v-show="row.item.status === false"
           >
             Tersedia
           </b-button>
