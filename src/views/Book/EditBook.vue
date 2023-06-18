@@ -1,7 +1,7 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Edit Buku</h2>
+    <h2 class="mt-2">Edit Judul Buku</h2>
     <div
       class="border p-4 rounded h-100 d-flex flex-column justify-content-between"
     >

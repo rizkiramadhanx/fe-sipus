@@ -1,28 +1,41 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Dashboard Bahasa</h2>
+    <h2 class="mt-2">Dashboard Buku</h2>
     <div class="border p-4 rounded h-100">
-      <b-link :href="'/dashboard/language/add'" class="mt-2">
+      <b-link :href="'booking/add'" class="mt-2">
         <b-button variant="success"> Tambah </b-button>
       </b-link>
       <b-table
-        :items="state.allLanguage"
+        :items="state.booking"
         :fields="fields"
-        show-empty
-        emptyText="Data Kosong"
         class="mt-2"
-        v-if="state.allLanguage"
+        v-if="state.booking"
       >
-        <template><slot name="empty-text">Data Kosong</slot></template>
+        <template #cell(status)="row">
+          <b-button
+            disabled
+            class="bg-primary text-center w-auto text-white rounded"
+            v-if="row.status"
+          >
+            Terpinjam
+          </b-button>
+          <b-button
+            disabled
+            class="bg-success text-center w-auto text-white rounded"
+            v-if="!row.status"
+          >
+            Tersedia
+          </b-button>
+        </template>
         <template #cell(action)="row">
           <div class="d-flex gap-2">
-            <b-link :href="'/dashboard/language/' + row.item.id_language">
+            <b-link :href="'/dashboard/booking/' + row.item.id_booking">
               <b-button variant="primary"> Edit </b-button>
             </b-link>
             <b-button
               variant="danger"
-              @click="handleDeleteLanguage(row.item.id_language)"
+              @click="handleDeleteAuthor(row.item.id_booking)"
               >Hapus</b-button
             >
           </div>
@@ -38,23 +51,20 @@ import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
 
 export default {
-  name: "LanguageDashboard",
+  name: "AuthorDashboard",
   components: { Sidebar },
   setup() {
     const state: any = reactive({
-      allLanguage: null,
+      booking: null,
     });
 
     onMounted(async () => {
-      const response = await axios.get(
-        "http://localhost:3000/api/v1/language",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      state.allLanguage = response.data.data;
+      const response = await axios.get("http://localhost:3000/api/v1/booking", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      state.booking = response.data.data;
     });
 
     return {
@@ -62,10 +72,10 @@ export default {
     };
   },
   methods: {
-    handleDeleteLanguage(id: number) {
+    handleDeleteAuthor(id: number) {
       const fetchDelete = async () => {
         const response = await axios.delete(
-          `http://localhost:3000/api/v1/language/${id}`,
+          `http://localhost:3000/api/v1/booking/${id}`,
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -80,48 +90,40 @@ export default {
       };
 
       fetchDelete().catch((e) => {
-        this.$toast.error("Gagal menghapus data, tabel memiliki relasi lain");
+        this.$toast.error("Gagal menghapus data", e);
       });
     },
   },
   data() {
     return {
       fields: [
-        { key: "name", label: "Bahasa" },
+        { key: "code", label: "Kode Buku" },
+        { key: "Book.title", label: "Judul Buku" },
+        {
+          key: "Book.code",
+          label: "Kode Judul Buku",
+        },
+        {
+          key: "status",
+          label: "Status Peminjaman",
+        },
         {
           key: "action",
           label: "Aksi",
         },
       ],
-      items: [
-        {
-          fullName: "Sanur",
-          id: 1,
-          action: {
-            satu: "11",
-          },
-        },
-        {
-          fullName: "Andi",
-          id: 2,
-          action: {
-            satu: "11",
-          },
-        },
-      ],
+
       breadCrumbs: [
         {
           text: "Dashboard",
           href: "/dashboard",
         },
         {
-          text: "Bahasa",
-          href: "/dashboard/penulis",
+          text: "Buku",
+          href: "/dashboard/booking",
         },
       ],
     };
   },
 };
 </script>
-
-<style scoped></style>

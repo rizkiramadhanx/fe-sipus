@@ -84,12 +84,17 @@ export default {
       isActiveNav: true,
       items_nav: [
         {
-          label: "Buku",
+          label: "Judul Buku",
           href: "/dashboard/book",
           role: ["ADMIN", "EMPLOYEE"],
           icon: "BIconBook",
         },
-
+        {
+          label: "Buku",
+          href: "/dashboard/booking",
+          role: ["ADMIN", "EMPLOYEE"],
+          icon: "BIconBook",
+        },
         {
           label: "Penulis",
           href: "/dashboard/author",

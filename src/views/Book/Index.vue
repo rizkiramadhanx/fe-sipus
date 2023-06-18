@@ -1,7 +1,7 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Dashboard Buku</h2>
+    <h2 class="mt-2">Dashboard Judul Buku</h2>
     <div class="border p-4 rounded h-100">
       <b-link :href="'/dashboard/book/add'" class="mt-2">
         <b-button variant="success"> Tambah </b-button>
@@ -9,9 +9,12 @@
       <b-table
         :items="state.allLanguage"
         :fields="fields"
+        show-empty
+        emptyText="Data Kosong"
         class="mt-2"
         v-if="state.allLanguage"
       >
+        <template><slot name="empty-text">Data Kosong</slot></template>
         <template #cell(Category)="row">
           <div class="d-flex gap-2">
             <template v-for="category in row.item.Category.slice(0, 2)">

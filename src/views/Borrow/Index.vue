@@ -1,28 +1,28 @@
 <template>
   <Sidebar :breadCrumbs="breadCrumbs">
     <hr />
-    <h2 class="mt-2">Dashboard Bahasa</h2>
+    <h2 class="mt-2">Dashboard Peminjaman</h2>
     <div class="border p-4 rounded h-100">
-      <b-link :href="'/dashboard/language/add'" class="mt-2">
+      <b-link :href="'/dashboard/borrow/add'" class="mt-2">
         <b-button variant="success"> Tambah </b-button>
       </b-link>
       <b-table
-        :items="state.allLanguage"
+        :items="state.borrow"
         :fields="fields"
         show-empty
         emptyText="Data Kosong"
         class="mt-2"
-        v-if="state.allLanguage"
+        v-if="state.borrow"
       >
         <template><slot name="empty-text">Data Kosong</slot></template>
         <template #cell(action)="row">
           <div class="d-flex gap-2">
-            <b-link :href="'/dashboard/language/' + row.item.id_language">
+            <b-link :href="'/dashboard/borrow/' + row.item.id_borrow">
               <b-button variant="primary"> Edit </b-button>
             </b-link>
             <b-button
               variant="danger"
-              @click="handleDeleteLanguage(row.item.id_language)"
+              @click="handleDeleteLanguage(row.item.id_borrow)"
               >Hapus</b-button
             >
           </div>
@@ -38,23 +38,20 @@ import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
 
 export default {
-  name: "LanguageDashboard",
+  name: "borrowDashboard",
   components: { Sidebar },
   setup() {
     const state: any = reactive({
-      allLanguage: null,
+      borrow: null,
     });
 
     onMounted(async () => {
-      const response = await axios.get(
-        "http://localhost:3000/api/v1/language",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      state.allLanguage = response.data.data;
+      const response = await axios.get("http://localhost:3000/api/v1/borrow", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      state.borrow = response.data.data;
     });
 
     return {
@@ -65,7 +62,7 @@ export default {
     handleDeleteLanguage(id: number) {
       const fetchDelete = async () => {
         const response = await axios.delete(
-          `http://localhost:3000/api/v1/language/${id}`,
+          `http://localhost:3000/api/v1/borrow/${id}`,
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -87,26 +84,10 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Bahasa" },
+        { key: "name", label: "Peminjaman" },
         {
           key: "action",
           label: "Aksi",
-        },
-      ],
-      items: [
-        {
-          fullName: "Sanur",
-          id: 1,
-          action: {
-            satu: "11",
-          },
-        },
-        {
-          fullName: "Andi",
-          id: 2,
-          action: {
-            satu: "11",
-          },
         },
       ],
       breadCrumbs: [
@@ -115,8 +96,8 @@ export default {
           href: "/dashboard",
         },
         {
-          text: "Bahasa",
-          href: "/dashboard/penulis",
+          text: "Peminjaman",
+          href: "/dashboard/bahasa",
         },
       ],
     };
