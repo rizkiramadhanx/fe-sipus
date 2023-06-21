@@ -28,6 +28,15 @@
           </div>
         </template>
       </b-table>
+      <div class="d-flex justify-content-end">
+        <b-pagination
+          class="gap-1"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
     </div>
   </Sidebar>
 </template>
@@ -61,6 +70,27 @@ export default {
     };
   },
   methods: {
+    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+      const run = async () => {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/student",
+          {
+            params: {
+              per_page: per_page_params,
+              current_page: current_page_params,
+            },
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        this.state = response.data.data.record;
+        this.rows = response.data.data.pagination.rows;
+      };
+
+      run();
+    },
     handleDeleteLanguage(id: number) {
       const fetchDelete = async () => {
         const response = await axios.delete(
@@ -83,8 +113,20 @@ export default {
       });
     },
   },
+  watch: {
+    currentPage(newValue) {
+      this.retriveNewData(this.perPage, newValue);
+    },
+
+    perPage(newValue) {
+      this.retriveNewData(newValue, this.currentPage);
+    },
+  },
   data() {
     return {
+      rows: null,
+      perPage: 10,
+      currentPage: 1,
       fields: [
         { key: "NIM", label: "NIM" },
         { key: "fullName", label: "Nama" },

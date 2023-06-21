@@ -111,7 +111,6 @@ export default {
       const handleSubmit = async () => {
         const response = await axios("http://localhost:3000/api/v1/borrow", {
           method: "post",
-
           data: {
             id_student: id_student,
             id_booking: id_booking,

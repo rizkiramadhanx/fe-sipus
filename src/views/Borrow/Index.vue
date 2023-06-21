@@ -45,6 +45,15 @@
           </div>
         </template>
       </b-table>
+      <div class="d-flex justify-content-end">
+        <b-pagination
+          class="gap-1"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
     </div>
   </Sidebar>
 </template>
@@ -60,7 +69,7 @@ export default {
   components: { Sidebar },
   setup() {
     const state: any = reactive({
-      borrow: null,
+      borrow: [],
     });
 
     onMounted(async () => {
@@ -70,7 +79,7 @@ export default {
         },
       });
 
-      state.borrow = response.data.data;
+      state.borrow = response.data.data.record;
     });
 
     return {
@@ -78,6 +87,27 @@ export default {
     };
   },
   methods: {
+    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+      const run = async () => {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/borrow",
+          {
+            params: {
+              per_page: per_page_params,
+              current_page: current_page_params,
+            },
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        this.state = response.data.data.record;
+        this.rows = response.data.data.pagination.rows;
+      };
+
+      run();
+    },
     formatDate(date: string) {
       if (!date) {
         return "Belum Dikembalikan";
@@ -106,9 +136,20 @@ export default {
       });
     },
   },
+  watch: {
+    currentPage(newValue) {
+      this.retriveNewData(this.perPage, newValue);
+    },
 
+    perPage(newValue) {
+      this.retriveNewData(newValue, this.currentPage);
+    },
+  },
   data() {
     return {
+      rows: null,
+      perPage: 10,
+      currentPage: 1,
       fields: [
         { key: "Booking.Book.title", label: "Judul Buku" },
         { key: "Booking.code", label: "Kode Buku" },
