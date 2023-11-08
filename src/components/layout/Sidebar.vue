@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script >
 import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";
 import {
@@ -146,7 +146,7 @@ export default {
     toggleNav() {
       this.isActiveNav = !this.isActiveNav;
     },
-    renderListNav(roleFromNav: string[]) {
+    renderListNav(roleFromNav) {
       const authStore = useAuthStore();
       const { role } = authStore;
       return roleFromNav.some((record) => record === role);

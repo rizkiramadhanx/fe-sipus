@@ -66,12 +66,13 @@
   </b-container>
 </template>
 
-<script lang="ts">
+<script >
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import { reactive } from "vue";
-import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
+import axios from "axios";
+
 
 export default {
   name: "login",
@@ -102,7 +103,8 @@ export default {
       const { setLogin } = storeAuth;
 
       const login = async () => {
-        const response = await axios("http://localhost:3000/api/v1/login", {
+        const response = await axios({
+          url: '/login',
           method: "post",
           data: {
             email: email,

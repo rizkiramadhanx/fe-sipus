@@ -60,7 +60,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -88,7 +88,7 @@ export default {
         containsPasswordRequirement: helpers.withMessage(
           () => `Must 6 digit`,
           // @ts-ignore
-          (value: string) => {
+          (value) => {
             if (value.length === 6) return true;
           }
         ),
@@ -103,7 +103,7 @@ export default {
     return { state, v$, option };
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
@@ -120,19 +120,17 @@ export default {
       const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/booking/${id}`,
-          {
-            method: "put",
-            data: {
-              code: code,
-              id_book: id_book,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `/booking/${id}`,
+          method: "put",
+          data: {
+            code: code,
+            id_book: id_book,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil mengedit data");
@@ -149,26 +147,25 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/booking/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: `/booking/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
       this.state.code = response.data.data.code;
       this.state.id_book = response.data.data.id_book;
     };
 
     const getOptionBook = async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/book`, {
+      const response = await axios({
+        url: "/book",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_book,
           text: item.title,

@@ -64,7 +64,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, onUpdated, reactive, ref } from "vue";
@@ -73,7 +73,7 @@ export default {
   name: "BookDashboard",
   components: { Sidebar },
   setup() {
-    const state: any = reactive({
+    const state = reactive({
       allBook: null,
     });
 
@@ -82,9 +82,10 @@ export default {
     };
   },
   methods: {
-    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+    retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
-        const response = await axios.get("http://localhost:3000/api/v1/book", {
+        const response = await axios({
+          url: `/book`,
           params: {
             per_page: per_page_params,
             current_page: current_page_params,
@@ -99,16 +100,15 @@ export default {
 
       run();
     },
-    handleDeleteLanguage(id: number) {
+    handleDeleteLanguage(id) {
       const fetchDelete = async () => {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/book/${id}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          method: "delete",
+          url: `book/${id}`,
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menghapus data");
@@ -169,7 +169,8 @@ export default {
   },
   mounted() {
     const run = async () => {
-      const response = await axios.get("http://localhost:3000/api/v1/book", {
+      const response = await axios({
+        url: "/book",
         headers: {
           Authorization: localStorage.getItem("token"),
         },

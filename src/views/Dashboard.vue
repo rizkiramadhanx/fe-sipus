@@ -4,7 +4,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 
 export default {

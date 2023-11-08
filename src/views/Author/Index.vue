@@ -38,7 +38,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -47,12 +47,14 @@ export default {
   name: "AuthorDashboard",
   components: { Sidebar },
   setup() {
-    const state: any = reactive({
+    const state = reactive({
       allAuthor: null,
     });
 
     onMounted(async () => {
-      const response = await axios.get("http://localhost:3000/api/v1/author", {
+      const response = await axios({
+        method: "get",
+        url: "/author",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -65,20 +67,18 @@ export default {
     };
   },
   methods: {
-    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+    retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/author",
-          {
-            params: {
-              per_page: per_page_params,
-              current_page: current_page_params,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: "/author",
+          params: {
+            per_page: per_page_params,
+            current_page: current_page_params,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         this.state = response.data.data.record;
         this.rows = response.data.data.pagination.rows;
@@ -86,16 +86,15 @@ export default {
 
       run();
     },
-    handleDeleteAuthor(id: number) {
+    handleDeleteAuthor(id) {
       const fetchDelete = async () => {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/author/${id}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          method: "delete",
+          url: `/author/${id}`,
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menghapus data");

@@ -35,11 +35,11 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
-import { onMounted, reactive } from "vue";
+import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, minLength } from "@vuelidate/validators";
+import { required, minLength } from "@vuelidate/validators";
 import axios from "axios";
 
 export default {
@@ -62,28 +62,27 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/author/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        method: "get",
+        url: `/author/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       this.state.fullName = response.data.data.fullName;
     };
 
     getDefault();
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
       return this.v$.$invalid;
     },
 
-    getUrl(): object {
+    getUrl() {
       return this.$route;
     },
   },
@@ -94,21 +93,16 @@ export default {
     onSubmit() {
       const { fullName } = this.state;
 
-      const { id } = this.$route.params;
-
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/author/${id}`,
-          {
-            method: "put",
-            data: {
-              fullName: fullName,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          method: "put",
+          data: {
+            fullName: fullName,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");
@@ -116,7 +110,7 @@ export default {
         }
       };
 
-      handleSubmit().catch((err) => {
+      handleSubmit().catch(() => {
         this.$toast.error("Gagal menambah data");
       });
     },

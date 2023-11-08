@@ -41,7 +41,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -50,7 +50,7 @@ export default {
   name: "LanguageDashboard",
   components: { Sidebar },
   setup() {
-    const state: any = reactive({
+    const state = reactive({
       allLanguage: null,
     });
 
@@ -71,7 +71,7 @@ export default {
     };
   },
   methods: {
-    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+    retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios.get(
           "http://localhost:3000/api/v1/language",
@@ -92,7 +92,7 @@ export default {
 
       run();
     },
-    handleDeleteLanguage(id: number) {
+    handleDeleteLanguage(id) {
       const fetchDelete = async () => {
         const response = await axios.delete(
           `http://localhost:3000/api/v1/language/${id}`,

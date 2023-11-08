@@ -58,7 +58,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -68,7 +68,7 @@ export default {
   name: "borrowDashboard",
   components: { Sidebar },
   setup() {
-    const state: any = reactive({
+    const state = reactive({
       borrow: [],
     });
 
@@ -87,7 +87,7 @@ export default {
     };
   },
   methods: {
-    retriveNewData(per_page_params: number, current_page_params: number = 10) {
+    retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios.get(
           "http://localhost:3000/api/v1/borrow",
@@ -108,13 +108,13 @@ export default {
 
       run();
     },
-    formatDate(date: string) {
+    formatDate(date) {
       if (!date) {
         return "Belum Dikembalikan";
       }
       return dayjs(date).format("D MMMM YYYY, pukul h:mm");
     },
-    handleDeleteLanguage(id: number) {
+    handleDeleteLanguage(id) {
       const fetchDelete = async () => {
         const response = await axios.delete(
           `http://localhost:3000/api/v1/borrow/${id}`,

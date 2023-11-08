@@ -35,7 +35,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -59,7 +59,7 @@ export default {
     return { state, v$ };
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
@@ -74,7 +74,8 @@ export default {
       const { fullName } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/author", {
+        const response = await axios({
+          url: "/author",
           method: "post",
           data: {
             fullName: fullName,

@@ -35,7 +35,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { onMounted, reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -76,14 +76,14 @@ export default {
     getDefault();
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
       return this.v$.$invalid;
     },
 
-    getUrl(): object {
+    getUrl() {
       return this.$route;
     },
   },

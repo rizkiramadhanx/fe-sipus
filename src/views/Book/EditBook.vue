@@ -87,7 +87,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -140,7 +140,7 @@ export default {
     return { state, v$, option };
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
@@ -151,19 +151,17 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/book/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: `/book/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
       this.state.id_author = response.data.data.id_author;
       this.state.id_language = response.data.data.id_language;
       this.state.title = response.data.data.title;
-      this.state.category = response.data.data.Category.map((item: any) => {
+      this.state.category = response.data.data.Category.map((item) => {
         return {
           code: item.id_category,
           name: item.name,
@@ -172,13 +170,14 @@ export default {
     };
 
     const getOptionAuthor = async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/author`, {
+      const response = await axios({
+        url: `/author`,
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_author,
           text: item.fullName,
@@ -188,16 +187,14 @@ export default {
       this.option.author.options = setToOption;
     };
     const getOptionCategory = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/category`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: "/category",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           name: item.name,
           code: item.id_category,
@@ -208,16 +205,14 @@ export default {
     };
 
     const getOptionLanguage = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/language`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: "/language",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_language,
           text: item.name,
@@ -240,26 +235,24 @@ export default {
       const { title, id_author, id_language, category } = this.state;
 
       // @ts-ignore
-      const categoryData: number[] = category.map((e: any) => e.code);
+      const categoryData = category.map((e) => e.code);
 
       const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/book/${id}`,
-          {
-            method: "put",
-            data: {
-              title: title,
-              id_author: id_author,
-              id_language: id_language,
-              array_id_category: categoryData,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `/book/${id}`,
+          method: "put",
+          data: {
+            title: title,
+            id_author: id_author,
+            id_language: id_language,
+            array_id_category: categoryData,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil mengubah data");

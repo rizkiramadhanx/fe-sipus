@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import VueRouter, { type NavigationGuardNext } from "vue-router";
 import Login from "@/views/Login.vue";
 import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
@@ -26,7 +26,7 @@ import EditBooking from "@/views/Booking/EditBooking.vue";
 import BorrowDashboard from "@/views/Borrow/Index.vue";
 import AddBorrow from "@/views/Borrow/AddBorrow.vue";
 
-const authGuardRole = async (next: any, role: string[]) => {
+const authGuardRole = async (next: NavigationGuardNext, role: string[]) => {
   const store = useAuthStore();
   const { checkUser, isLogin, token } = store;
 

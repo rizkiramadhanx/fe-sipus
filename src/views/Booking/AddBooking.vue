@@ -55,7 +55,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -83,7 +83,7 @@ export default {
         containsPasswordRequirement: helpers.withMessage(
           () => `Must 6 digit`,
           // @ts-ignore
-          (value: string) => {
+          (value) => {
             if (value.length === 6) return true;
           }
         ),
@@ -98,7 +98,7 @@ export default {
     return { state, v$, option };
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
@@ -113,7 +113,8 @@ export default {
       const { code, id_book } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/booking", {
+        const response = await axios({
+          url: '/booking',
           method: "post",
           data: {
             code: code,
@@ -137,12 +138,13 @@ export default {
   },
   mounted() {
     const getOptionBook = async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/book`, {
+      const response = await axios({
+        url: '/book',
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_book,
           text: item.title,

@@ -59,7 +59,7 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -94,7 +94,7 @@ export default {
     return { state, v$, option };
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
@@ -141,7 +141,7 @@ export default {
           status: false,
         },
       });
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_booking,
           text: item.code + ` (${item.Book.title})`,
@@ -157,7 +157,7 @@ export default {
           Authorization: localStorage.getItem("token"),
         },
       });
-      const setToOption = response.data.data.map((item: any) => {
+      const setToOption = response.data.data.map((item) => {
         return {
           value: item.id_student,
           text: item.fullName,

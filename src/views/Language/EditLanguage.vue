@@ -35,9 +35,9 @@
   </Sidebar>
 </template>
 
-<script lang="ts">
+<script >
 import Sidebar from "@/components/layout/Sidebar.vue";
-import { onMounted, reactive } from "vue";
+import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import axios from "axios";
@@ -59,6 +59,7 @@ export default {
     return { state, v$ };
   },
   mounted() {
+    // @ts-ignore
     const { id } = this.$route.params;
 
     const getDefault = async () => {
@@ -76,14 +77,14 @@ export default {
     getDefault();
   },
   computed: {
-    isValidForm(): any {
+    isValidForm() {
       /**
        * TODO : reset form
        */
       return this.v$.$invalid;
     },
 
-    getUrl(): object {
+    getUrl() {
       return this.$route;
     },
   },
