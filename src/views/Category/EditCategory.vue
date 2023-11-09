@@ -62,14 +62,12 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/category/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: `/category/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       this.state.name = response.data.data.name;
     };
 
@@ -97,18 +95,16 @@ export default {
       const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/category/${id}`,
-          {
-            method: "put",
-            data: {
-              name: name,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `category/${id}`,
+          method: "put",
+          data: {
+            name: name,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");

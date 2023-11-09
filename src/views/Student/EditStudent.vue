@@ -72,7 +72,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -111,14 +111,12 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/student/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: `/student/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       this.state.NIM = response.data.data.NIM;
       this.state.name = response.data.data.fullName;
       this.state.phone = response.data.data.phone.slice(1);
@@ -135,20 +133,18 @@ export default {
       const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/student/${id}`,
-          {
-            method: "put",
-            data: {
-              fullName: name,
-              phone: "0" + phone,
-              NIM: NIM,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `/student/${id}`,
+          method: "put",
+          data: {
+            fullName: name,
+            phone: "0" + phone,
+            NIM: NIM,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil mengedit data");

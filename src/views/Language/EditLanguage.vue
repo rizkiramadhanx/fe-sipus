@@ -35,7 +35,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -63,14 +63,12 @@ export default {
     const { id } = this.$route.params;
 
     const getDefault = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/language/${id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: `language/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       this.state.name = response.data.data.name;
     };
 
@@ -98,18 +96,16 @@ export default {
       const { id } = this.$route.params;
 
       const handleSubmit = async () => {
-        const response = await axios(
-          `http://localhost:3000/api/v1/language/${id}`,
-          {
-            method: "put",
-            data: {
-              name: name,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `/language/${id}`,
+          method: "put",
+          data: {
+            name: name,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menambah data");

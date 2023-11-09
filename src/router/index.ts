@@ -31,7 +31,8 @@ const authGuardRole = async (next: NavigationGuardNext, role: string[]) => {
   const { checkUser, isLogin, token } = store;
 
   const checkRole = async () => {
-    const response = await axios("http://localhost:3000/api/v1/me", {
+    const response = await axios({
+      url:'/me',
       headers: {
         Authorization: token,
       },

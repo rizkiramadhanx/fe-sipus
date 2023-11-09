@@ -74,7 +74,8 @@ export default {
       const { name } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/category", {
+        const response = await axios({
+          url: '/category',
           method: "post",
           data: {
             name: name,

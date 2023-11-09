@@ -54,7 +54,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -69,7 +69,7 @@ export default {
 
     onMounted(async () => {
       const response = await axios({
-        url: '/booking',
+        url: "/booking",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -84,18 +84,16 @@ export default {
   methods: {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/booking",
-          {
-            params: {
-              per_page: per_page_params,
-              current_page: current_page_params,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: "/booking",
+          params: {
+            per_page: per_page_params,
+            current_page: current_page_params,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         this.state.allBook = response.data.data.record;
         this.rows = response.data.data.pagination.rows;
@@ -105,14 +103,13 @@ export default {
     },
     handleDeleteAuthor(id) {
       const fetchDelete = async () => {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/booking/${id}`,
-          {
+        const response = await axios({
+          url: `/booking/${id}`,
+          method: 'delete',
             headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menghapus data");

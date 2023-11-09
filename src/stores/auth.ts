@@ -19,7 +19,8 @@ export const useAuthStore = defineStore("auth", {
   getters: {},
   actions: {
     async checkUser() {
-      const response = await axios("http://localhost:3000/api/v1/me", {
+      const response = await axios({
+        url: '/me',
         headers: {
           Authorization: this.token,
         },

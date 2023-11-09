@@ -72,7 +72,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -115,7 +115,8 @@ export default {
       const { name, phone, NIM } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/student", {
+        const response = await axios({
+          url: "/student",
           method: "post",
           data: {
             fullName: name,

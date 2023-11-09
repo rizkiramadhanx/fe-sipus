@@ -41,7 +41,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -55,14 +55,12 @@ export default {
     });
 
     onMounted(async () => {
-      const response = await axios.get(
-        "http://localhost:3000/api/v1/category",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios({
+        url: "/category",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       state.category = response.data.data.record;
     });
 
@@ -74,18 +72,16 @@ export default {
   methods: {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/category",
-          {
-            params: {
-              per_page: per_page_params,
-              current_page: current_page_params,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: "/category",
+          params: {
+            per_page: per_page_params,
+            current_page: current_page_params,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         this.state = response.data.data.record;
         this.rows = response.data.data.pagination.rows;
@@ -95,14 +91,13 @@ export default {
     },
     handleDeleteLanguage(id) {
       const fetchDelete = async () => {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/category/${id}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          method: "delete",
+          url: `/category/${id}`,
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menghapus data");

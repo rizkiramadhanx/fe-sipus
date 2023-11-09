@@ -17,7 +17,7 @@
         class="col-md-6 col-12 d-flex justify-content-center align-items-center right_login"
       >
         <div class="w-50 d-flex flex-column">
-          <h5 class="text-uppercase font-weight-bold">Login Page</h5>
+          <h5 class="text-uppercase font-weight-bold">Login Page </h5>
           <b-form @submit.prevent="onSubmit">
             <b-form-group id="email" label="Email" label-for="email">
               <b-form-input
@@ -104,8 +104,8 @@ export default {
 
       const login = async () => {
         const response = await axios({
-          url: '/login',
-          method: "post",
+          url: '/',
+          method: "get",
           data: {
             email: email,
             password: password,

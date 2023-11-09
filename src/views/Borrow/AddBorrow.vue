@@ -59,7 +59,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -109,7 +109,8 @@ export default {
       const { id_student, id_booking } = this.state;
 
       const handleSubmit = async () => {
-        const response = await axios("http://localhost:3000/api/v1/borrow", {
+        const response = await axios({
+          url: "/borrow",
           method: "post",
           data: {
             id_student: id_student,
@@ -133,7 +134,8 @@ export default {
   },
   mounted() {
     const getBooking = async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/booking`, {
+      const response = await axios({
+        url: "/booking",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -152,7 +154,8 @@ export default {
     };
 
     const getStudent = async () => {
-      const response = await axios.get(`http://localhost:3000/api/v1/student`, {
+      const response = await axios({
+        url: "/student",
         headers: {
           Authorization: localStorage.getItem("token"),
         },

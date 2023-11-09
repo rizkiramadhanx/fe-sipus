@@ -12,7 +12,7 @@ import "./assets/scss/bootstrap.scss";
 import "./assets/main.css";
 import VueRouter from "vue-router";
 
-axios.defaults.baseURL = "https://be-sipus.vercel.app/";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 Vue.use(PiniaVuePlugin);
 Vue.use(BootstrapVue);

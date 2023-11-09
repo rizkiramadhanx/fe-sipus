@@ -41,7 +41,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
@@ -55,7 +55,8 @@ export default {
     });
 
     onMounted(async () => {
-      const response = await axios.get("http://localhost:3000/api/v1/student", {
+      const response = await axios({
+        url: "/student",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -72,18 +73,16 @@ export default {
   methods: {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/student",
-          {
-            params: {
-              per_page: per_page_params,
-              current_page: current_page_params,
-            },
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: "/student",
+          params: {
+            per_page: per_page_params,
+            current_page: current_page_params,
+          },
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         this.state = response.data.data.record;
         this.rows = response.data.data.pagination.rows;
@@ -93,14 +92,13 @@ export default {
     },
     handleDeleteLanguage(id) {
       const fetchDelete = async () => {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/student/${id}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios({
+          url: `/student/${id}`,
+          method: "delete",
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
 
         if (response.status === 200) {
           this.$toast.success("Berhasil menghapus data");
