@@ -56,6 +56,8 @@ export default {
 
     onMounted(async () => {
       const response = await axios({
+        method: "get",
+
         url: "/category",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -73,6 +75,8 @@ export default {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios({
+          method: "get",
+
           url: "/category",
           params: {
             per_page: per_page_params,

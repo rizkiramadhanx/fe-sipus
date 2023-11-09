@@ -69,6 +69,8 @@ export default {
 
     onMounted(async () => {
       const response = await axios({
+        method: "get",
+
         url: "/booking",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -85,6 +87,8 @@ export default {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios({
+          method: "get",
+
           url: "/booking",
           params: {
             per_page: per_page_params,
@@ -104,9 +108,10 @@ export default {
     handleDeleteAuthor(id) {
       const fetchDelete = async () => {
         const response = await axios({
+        
           url: `/booking/${id}`,
-          method: 'delete',
-            headers: {
+          method: "delete",
+          headers: {
             Authorization: localStorage.getItem("token"),
           },
         });

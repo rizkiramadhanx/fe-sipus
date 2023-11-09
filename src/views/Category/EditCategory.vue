@@ -63,6 +63,8 @@ export default {
 
     const getDefault = async () => {
       const response = await axios({
+        method: "get",
+
         url: `/category/${id}`,
         headers: {
           Authorization: localStorage.getItem("token"),

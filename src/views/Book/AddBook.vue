@@ -87,7 +87,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -146,13 +146,15 @@ export default {
   mounted() {
     const getOptionAuthor = async () => {
       const response = await axios({
+        method: "get",
         url: "/author",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_author,
           text: item.fullName,
@@ -163,13 +165,14 @@ export default {
     };
     const getOptionCategory = async () => {
       const response = await axios({
+        method: 'get',
         url: "/category",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           name: item.name,
           code: item.id_category,
@@ -181,13 +184,14 @@ export default {
 
     const getOptionLanguage = async () => {
       const response = await axios({
+        method: "get",
         url: "/language",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_language,
           text: item.name,
@@ -212,7 +216,6 @@ export default {
       const categoryData = category.map((e) => e.code);
 
       const handleSubmit = async () => {
-        console.log(this.state);
         const response = await axios({
           url: "/book",
           method: "post",

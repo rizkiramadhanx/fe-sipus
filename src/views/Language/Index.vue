@@ -56,6 +56,8 @@ export default {
 
     onMounted(async () => {
       const response = await axios({
+        method: "get",
+
         url: "/language",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -72,6 +74,8 @@ export default {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios({
+          method: "get",
+
           url: "/language",
           params: {
             per_page: per_page_params,
@@ -92,6 +96,8 @@ export default {
       const fetchDelete = async () => {
         const response = await axios({
           url: `language/${id}`,
+          method: "get",
+
           headers: {
             Authorization: localStorage.getItem("token"),
           },

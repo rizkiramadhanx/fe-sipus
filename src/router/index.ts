@@ -32,6 +32,7 @@ const authGuardRole = async (next: NavigationGuardNext, role: string[]) => {
 
   const checkRole = async () => {
     const response = await axios({
+      method: 'get',
       url:'/me',
       headers: {
         Authorization: token,

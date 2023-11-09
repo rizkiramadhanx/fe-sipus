@@ -112,6 +112,8 @@ export default {
 
     const getDefault = async () => {
       const response = await axios({
+        method: "get",
+
         url: `/student/${id}`,
         headers: {
           Authorization: localStorage.getItem("token"),

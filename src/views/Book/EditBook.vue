@@ -73,6 +73,7 @@
           ></multiselect>
         </div>
       </b-form>
+  
       <div class="d-flex gap-2 mt-2 justify-content-end">
         <b-button variant="danger" @click="handleReset"> Reset </b-button>
         <b-button
@@ -87,7 +88,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -152,6 +153,7 @@ export default {
 
     const getDefault = async () => {
       const response = await axios({
+        method: 'get',
         url: `/book/${id}`,
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -171,13 +173,14 @@ export default {
 
     const getOptionAuthor = async () => {
       const response = await axios({
+        method: 'get',
         url: `/author`,
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_author,
           text: item.fullName,
@@ -188,13 +191,14 @@ export default {
     };
     const getOptionCategory = async () => {
       const response = await axios({
+        method: 'get',
         url: "/category",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           name: item.name,
           code: item.id_category,
@@ -206,13 +210,14 @@ export default {
 
     const getOptionLanguage = async () => {
       const response = await axios({
+        method: 'get',
         url: "/language",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
 
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_language,
           text: item.name,

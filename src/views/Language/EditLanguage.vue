@@ -64,6 +64,8 @@ export default {
 
     const getDefault = async () => {
       const response = await axios({
+        method: "get",
+
         url: `language/${id}`,
         headers: {
           Authorization: localStorage.getItem("token"),

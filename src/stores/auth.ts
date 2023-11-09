@@ -21,6 +21,7 @@ export const useAuthStore = defineStore("auth", {
     async checkUser() {
       const response = await axios({
         url: '/me',
+        method: 'get',
         headers: {
           Authorization: this.token,
         },

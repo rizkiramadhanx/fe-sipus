@@ -74,6 +74,8 @@ export default {
 
     onMounted(async () => {
       const response = await axios({
+        method: "get",
+
         url: "/borrow",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -91,7 +93,9 @@ export default {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios({
-          url: '/borrow',
+          method: "get",
+
+          url: "/borrow",
           params: {
             per_page: per_page_params,
             current_page: current_page_params,
@@ -116,6 +120,8 @@ export default {
     handleDeleteLanguage(id) {
       const fetchDelete = async () => {
         const response = await axios({
+          method: "get",
+
           url: `/borrow/${id}`,
           headers: {
             Authorization: localStorage.getItem("token"),

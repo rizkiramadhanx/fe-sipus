@@ -135,6 +135,8 @@ export default {
   mounted() {
     const getBooking = async () => {
       const response = await axios({
+        method: "get",
+
         url: "/booking",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -143,7 +145,7 @@ export default {
           status: false,
         },
       });
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_booking,
           text: item.code + ` (${item.Book.title})`,
@@ -155,12 +157,14 @@ export default {
 
     const getStudent = async () => {
       const response = await axios({
+        method: "get",
+
         url: "/student",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_student,
           text: item.fullName,

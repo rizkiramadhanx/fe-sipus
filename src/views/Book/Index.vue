@@ -64,7 +64,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import axios from "axios";
 import { onMounted, onUpdated, reactive, ref } from "vue";
@@ -85,6 +85,7 @@ export default {
     retriveNewData(per_page_params, current_page_params = 10) {
       const run = async () => {
         const response = await axios({
+          method: "get",
           url: `/book`,
           params: {
             per_page: per_page_params,
@@ -170,6 +171,7 @@ export default {
   mounted() {
     const run = async () => {
       const response = await axios({
+        method: "get",
         url: "/book",
         headers: {
           Authorization: localStorage.getItem("token"),

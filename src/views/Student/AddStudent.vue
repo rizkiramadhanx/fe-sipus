@@ -116,6 +116,7 @@ export default {
 
       const handleSubmit = async () => {
         const response = await axios({
+          method: "get",
           url: "/student",
           method: "post",
           data: {

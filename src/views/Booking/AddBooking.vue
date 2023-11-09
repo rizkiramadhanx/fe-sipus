@@ -55,7 +55,7 @@
   </Sidebar>
 </template>
 
-<script >
+<script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -114,7 +114,7 @@ export default {
 
       const handleSubmit = async () => {
         const response = await axios({
-          url: '/booking',
+          url: "/booking",
           method: "post",
           data: {
             code: code,
@@ -139,12 +139,14 @@ export default {
   mounted() {
     const getOptionBook = async () => {
       const response = await axios({
-        url: '/book',
+        method: "get",
+
+        url: "/book",
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      const setToOption = response.data.data.map((item) => {
+      const setToOption = response.data.data.record.map((item) => {
         return {
           value: item.id_book,
           text: item.title,
