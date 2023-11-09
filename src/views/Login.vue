@@ -104,8 +104,8 @@ export default {
 
       const login = async () => {
         const response = await axios({
-          url: '/',
-          method: "get",
+          url: '/login',
+          method: "post",
           data: {
             email: email,
             password: password,
